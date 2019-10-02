@@ -5,10 +5,18 @@
       <span class="sample">サンプルだよ</span>
     </p>
     <MyComponent :message="$data.message" />
+    <ul id="send">
+      <li v-for="(name, message) in messagelist">
+        {{name}}-{{message}}
+      </li>
+    </ul>
     <form @submit="onSubmit">
       <input v-model="$data.text" type="text">
       <button type="submit">送信</button>
     </form>
+    <a>
+      地面地面地面地面地面地面地面地面地面地面地面地面
+    </a>
   </div>
 </template>
 
@@ -25,7 +33,9 @@ export default {
   data() {
     return {
       message: '',
-      text: ''
+      messagelist: [],
+      text: '',
+      name: 'name'
     };
   },
   created() {
@@ -36,7 +46,11 @@ export default {
     socket.on('send', (message) => {
       console.log(message);
       this.$data.message = message;
+      this.$data.messagelist.push(message);
     });
+  },
+  updated() {
+    this.scrollToEnd();
   },
   methods: {
     /**
@@ -45,7 +59,15 @@ export default {
     onSubmit(e) {
       e.preventDefault();
       socket.emit('send', this.$data.text);
-    }
+      this.text = ''; // フォームリセット
+    },
+
+    // 下までスクロール
+    scrollToEnd() {
+      this.$nextTick(() => {
+        window.scrollTo(0, document.body.clientHeight);
+      });
+    },
   }
 };
 </script>
