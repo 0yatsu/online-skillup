@@ -11,28 +11,26 @@
         </nav>
       </div>
     </header>
-    <MyComponent :message="$data.message" />
     <ul id="send">
-      <li v-for="(name, message) in messagelist" class="my-3 mx-5">
-        {{name}}-{{message}}
+      <li v-for="(name, message) in messagelist" class="card card-body bg-light py-1 my-2">
+        {{message}}-{{name}}
       </li>
-    </ul>
-    <footer class="fixed-bottom bg-secondary">
-      <div class="text-right m-4">
-        <form @submit="onSubmit">
-          <input v-model="$data.text" type="text">
-          <button type="submit">送信</button>
+      </ul>
+    <div>
+      <footer class="fixed-bottom bg-secondary text-center">
+        <form @submit="onSubmit" class="input-group mt-2">
+          <input v-model="$data.text" type="text" class="form-control mx-2">
+          <div class="inputgroup-append">
+            <button type="submit" class="btn btn-info px-3 mr-2">送信</button>
+          </div>
         </form>
-      </div>
-      <div class="text-white text-right m-4">
-        地面地面地面地面地面地面地面地面地面地面地面地面
-      </div>
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand text-white" href="#">pagetop</a>
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand text-white" href="#">pagetop</a>
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </div>
   </div>
 </template>
 
