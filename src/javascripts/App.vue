@@ -15,13 +15,13 @@
       <li v-for="(name, message) in messagelist" class="card card-body bg-light py-1 my-2">
         {{message}}-{{name}}
       </li>
-      </ul>
+    </ul>
     <div>
       <footer class="fixed-bottom bg-secondary text-center">
         <form @submit="onSubmit" class="input-group mt-2">
-          <input v-model="$data.text" type="text" class="form-control mx-2">
+          <input v-model="$data.text" type="text" class="form-control ml-2">
           <div class="inputgroup-append">
-            <button type="submit" class="btn btn-info px-3 mr-2">送信</button>
+            <button type="submit" class="btn btn-info px-4 mr-2">送信</button>
           </div>
         </form>
         <div class="container-fluid">
