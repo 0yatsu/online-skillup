@@ -49,6 +49,9 @@ export default {
       this.$data.messagelist.push(message);
     });
   },
+  updated() {
+    this.scrollToEnd();
+  },
   methods: {
     /**
      * Enterボタンを押したとき
@@ -57,6 +60,10 @@ export default {
       e.preventDefault();
       socket.emit('send', this.$data.text);
       this.text = ''; // フォームリセット
+    },
+
+    // 下までスクロール
+    scrollToEnd() {
       this.$nextTick(() => {
         window.scrollTo(0, document.body.clientHeight);
       });
