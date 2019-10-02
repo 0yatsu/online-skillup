@@ -1,22 +1,38 @@
 <template>
   <div>
-    <p>
-      <img class="logo" src="../images/logo.jpg" alt="ロゴ">
-      <span class="sample">サンプルだよ</span>
-    </p>
+    <header class="sticky-top">
+      <div class="bg-secondary">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand text-white" href="#">Bootstrap</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
     <MyComponent :message="$data.message" />
     <ul id="send">
-      <li v-for="(name, message) in messagelist">
+      <li v-for="(name, message) in messagelist" class="my-3 mx-5">
         {{name}}-{{message}}
       </li>
     </ul>
-    <form @submit="onSubmit">
-      <input v-model="$data.text" type="text">
-      <button type="submit">送信</button>
-    </form>
-    <a>
-      地面地面地面地面地面地面地面地面地面地面地面地面
-    </a>
+    <footer class="fixed-bottom bg-secondary">
+      <div class="text-right m-4">
+        <form @submit="onSubmit">
+          <input v-model="$data.text" type="text">
+          <button type="submit">送信</button>
+        </form>
+      </div>
+      <div class="text-white text-right m-4">
+        地面地面地面地面地面地面地面地面地面地面地面地面
+      </div>
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand text-white" href="#">pagetop</a>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
