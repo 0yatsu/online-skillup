@@ -13,19 +13,21 @@
     </header>
     <div class="bg-secondary px-2 pb-3">
       <form @submit="onSubmit">
-        <div class="input-group">
+        <div class="input-group" style="width: 18rem;">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="user">@</span>
+            <span class="input-group-text" id="user">
+              <font-awesome-icon icon="user" />
+            </span>
           </div>
           <input  v-model="$data.username" type="text" class="form-control" placeholder="Username">
         </div>
       </form>
     </div>
-    <div id="send">
-      <ul v-for="message in messagelist" class="card card-body bg-light py-1 my-2" style="width: 18rem;">
+    <ul id="send">
+      <li v-for="message in messagelist" class="card card-body bg-light py-1 my-2" style="width: 18rem;">
         {{message}}
-      </ul>
-    </div>
+      </li>
+    </ul>
     <div class="p-5">
     </div>
     <div class="bg-secondary fixed-bottom pt-3 ">
@@ -61,7 +63,7 @@ export default {
   data() {
     return {
       message: '',
-      messagelist: [],
+      messagelist: [], // 送受信したmessageを格納
       text: '',
     };
   },
@@ -92,7 +94,19 @@ export default {
         this.text = ''; // フォームリセット
       }
     },
-
+    /**
+     * message表示
+     * @param {String} text
+     * @param {String} user
+     */
+    pushMessage: function(text, user) {
+      console.log('## pushMessage()');
+      console.log('message = ${message}, user = ${user}');
+      this.text.push({
+        'message': text,
+        'user': user
+      });
+    },
     // 下までスクロール
     scrollToEnd() {
       this.$nextTick(() => {
