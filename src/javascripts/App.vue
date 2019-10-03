@@ -15,19 +15,25 @@
       <form @submit="onSubmit">
         <div class="input-group" style="width: 18rem;">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="user">
+            <span class="input-group-text">
               <font-awesome-icon icon="user" />
             </span>
           </div>
-          <input  v-model="$data.username" type="text" class="form-control" placeholder="Username">
+          <input  v-model="$data.user" type="text" class="form-control" placeholder="Username">
         </div>
       </form>
     </div>
-    <ul id="send">
-      <li v-for="message in messagelist" class="card card-body bg-light py-1 my-2" style="width: 18rem;">
-        {{message}}
+    <div class="connect username send">
+      <li v-for="(user, message) in (userlist, massagelist)" class="card card-body bg-light p-2">
+        <div class="pl-2">
+          <div class="pb-2">
+            {{user}}
+            <font-awesome-icon icon="caret-right" class="mx-2 pt-2" style="font-size: 24px;" />
+            {{message}}
+          </div>
+        </div>
       </li>
-    </ul>
+    </div>
     <div class="p-5">
     </div>
     <div class="bg-secondary fixed-bottom pt-3 ">
@@ -65,6 +71,8 @@ export default {
       message: '',
       messagelist: [], // 送受信したmessageを格納
       text: '',
+      user: 'oyatsu', // ユーザー情報
+      userlist: [],
     };
   },
   created() {
@@ -77,6 +85,12 @@ export default {
       this.$data.message = message;
       this.$data.messagelist.push(message);
     });
+
+    socket.on('username', (user) => {
+      console.log(user);
+      this.$data.user = user;
+      this.$data.userlist.push(user);
+    });
   },
   updated() {
     this.scrollToEnd();
@@ -87,11 +101,12 @@ export default {
      */
     onSubmit(e) {
       e.preventDefault();
-      if (this.$data.text === '') {
-        return 1; // フォームが空欄のときは送信しない
+      if (this.$data.text === '' | this.$data.user === '') {
+        return 1; // ユーザー名またはフォームが空欄のときは送信しない
       } else {
         socket.emit('send', this.$data.text);
         this.text = ''; // フォームリセット
+        socket.emit('username', this.$data.name);
       }
     },
     /**
@@ -99,14 +114,18 @@ export default {
      * @param {String} text
      * @param {String} user
      */
+    /*
     pushMessage: function(text, user) {
       console.log('## pushMessage()');
       console.log('message = ${message}, user = ${user}');
       this.text.push({
         'message': text,
+      });
+      this.user.push({
         'user': user
       });
     },
+    */
     // 下までスクロール
     scrollToEnd() {
       this.$nextTick(() => {

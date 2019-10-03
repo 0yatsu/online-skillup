@@ -3,7 +3,7 @@ import '../css/base.scss';
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPaperPlane, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faUser, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 
@@ -11,7 +11,7 @@ import App from './App.vue';
 Vue.use(BootstrapVue);
 
 // fontawesome
-library.add(faPaperPlane, faUser);
+library.add(faPaperPlane, faUser, faCaretRight);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({
