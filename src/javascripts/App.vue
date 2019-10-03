@@ -11,14 +11,26 @@
         </nav>
       </div>
     </header>
-    <ul id="send">
-      <li v-for="(name, message) in messagelist" class="card card-body bg-light py-1 my-2">
-        {{message}}-{{name}}
-      </li>
-    </ul>
-    <div>
-      <footer class="fixed-bottom bg-secondary text-center">
-        <form @submit="onSubmit" class="input-group mt-2">
+    <div class="bg-secondary px-2 pb-3">
+      <form @submit="onSubmit">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="user">@</span>
+          </div>
+          <input  v-model="$data.username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="username">
+        </div>
+      </form>
+    </div>
+    <div id="send">
+      <ul v-for="message in messagelist" class="card card-body bg-light py-1 my-2" style="width: 18rem;">
+        {{message}}
+      </ul>
+    </div>
+    <div class="p-5">
+    </div>
+    <div class="bg-secondary fixed-bottom pt-3 ">
+      <footer class="text-center">
+        <form @submit="onSubmit" class="input-group">
           <input v-model="$data.text" type="text" class="form-control ml-2">
           <div class="inputgroup-append">
             <button type="submit" class="btn btn-info px-4 mr-2">送信</button>
@@ -49,7 +61,6 @@ export default {
       message: '',
       messagelist: [],
       text: '',
-      name: 'name'
     };
   },
   created() {
@@ -72,8 +83,12 @@ export default {
      */
     onSubmit(e) {
       e.preventDefault();
-      socket.emit('send', this.$data.text);
-      this.text = ''; // フォームリセット
+      if (this.$data.text === '') {
+        return 1; // フォームが空欄のときは送信しない
+      } else {
+        socket.emit('send', this.$data.text);
+        this.text = ''; // フォームリセット
+      }
     },
 
     // 下までスクロール
