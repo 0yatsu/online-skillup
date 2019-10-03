@@ -17,7 +17,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text" id="user">@</span>
           </div>
-          <input  v-model="$data.username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="username">
+          <input  v-model="$data.username" type="text" class="form-control" placeholder="Username">
         </div>
       </form>
     </div>
@@ -33,7 +33,9 @@
         <form @submit="onSubmit" class="input-group">
           <input v-model="$data.text" type="text" class="form-control ml-2">
           <div class="inputgroup-append">
-            <button type="submit" class="btn btn-info px-4 mr-2">送信</button>
+            <button type="submit" class="btn btn-info px-4 mr-2">
+              <font-awesome-icon icon="paper-plane" />
+            </button>
           </div>
         </form>
         <div class="container-fluid">
