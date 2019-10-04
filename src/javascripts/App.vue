@@ -33,25 +33,23 @@
       </li>
     </ul>
     <div class="p-5">
-    </div>
-    <div class="bg-secondary fixed-bottom pt-3 ">
-      <footer class="text-center">
-        <form @submit="onSubmit" class="input-group">
-          <input v-model="$data.name" type="hidden" class="form-control" placeholder="Username">
-          <input v-model="$data.text" type="text" class="form-control">
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-info px-4 mr-2">
-              <font-awesome-icon icon="paper-plane" />
-            </button>
-          </div>
-        </form>
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand text-white" href="#">pagetop</a>
-          </div>
+      <form @submit="onSubmit" class="input-group">
+        <input v-model="$data.name" type="hidden" class="form-control" placeholder="Username">
+        <div class="ml-2 col align-self-end input-group-append">
+          <input v-model="$data.text" type="text" class="form-control" style="border-radius: 0.25rem 0 0 0.25rem;">
+          <button type="submit" class="btn btn-info px-4 mr-2">
+            <font-awesome-icon icon="paper-plane" />
+          </button>
         </div>
-      </footer>
+      </form>
     </div>
+    <div class="m-2">
+      <a class="text-black" href="#">pagetop</a>
+    </div>
+    <footer class="text-center bg-secondary fixed-bottom pt-3">
+      <div class="container-fluid">
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -69,16 +67,8 @@ export default {
     return {
       name: '',
       text: '',
-      // user: '', // inputしたユーザー名
-      // content: '', // inputしたメッセージ
-      /*
-      cards: [
-        { userlist: [] }, // 送受信したuserを格納
-        { messagelist: [] }, // 送受信したmessageを格納
-      ],
-      */
-      message: {},
-      messages: [] // 送受信したname,textをuser,contentに格納
+      message: {}, // 送信するname,textをuser,content格納する用
+      messages: [] // 送受信したmessageを格納する用
     };
   },
   created() {
@@ -88,17 +78,8 @@ export default {
 
     socket.on('send', (message) => {
       console.log(message);
-      // this.$data.message = message;
       this.$data.messages.push(message);
     });
-
-    /*
-    socket.on('username', (user) => {
-      console.log(user);
-      this.$data.user = user;
-      this.$data.cards.userlist.push(user);
-    });
-    */
   },
   updated() {
     this.scrollToEnd();
@@ -112,28 +93,11 @@ export default {
       if (this.$data.text === '' | this.$data.name === '') {
         return 1; // ユーザー名またはフォームが空欄のときは送信しない
       } else {
-        this.$data.message = { user: this.$data.name, content: this.$data.text };
+        this.$data.message = { user: this.$data.name, content: this.$data.text }; // nameとcontentをmessageとして送信
         socket.emit('send', (this.$data.message));
         this.text = ''; // フォームリセット
       }
     },
-    /**
-     * message表示
-     * @param {String} text
-     * @param {String} user
-     */
-    /*
-    pushMessage: function(text, user) {
-      console.log('## pushMessage()');
-      console.log('message = ${message}, user = ${user}');
-      this.text.push({
-        'message': text,
-      });
-      this.user.push({
-        'user': user
-      });
-    },
-    */
     // 下までスクロール
     scrollToEnd() {
       this.$nextTick(() => {
