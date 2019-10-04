@@ -12,35 +12,34 @@
       </div>
     </header>
     <div class="bg-secondary px-2 pb-3">
-      <form @submit="onSubmit">
-        <div class="input-group" style="width: 18rem;">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <font-awesome-icon icon="user" />
-            </span>
-          </div>
-          <input  v-model="$data.user" type="text" class="form-control" placeholder="Username">
+      <div class="input-group" style="width: 18rem;">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <font-awesome-icon icon="user" />
+          </span>
         </div>
-      </form>
+        <input v-model="$data.name" type="text" class="form-control" placeholder="Username">
+      </div>
     </div>
-    <div class="connect username send">
-      <li v-for="(user, message) in (userlist, massagelist)" class="card card-body bg-light p-2">
+    <ul class="username send">
+      <li v-for="message in messages" class="card card-body bg-light p-2">
         <div class="pl-2">
           <div class="pb-2">
-            {{user}}
+            {{message.user}}
             <font-awesome-icon icon="caret-right" class="mx-2 pt-2" style="font-size: 24px;" />
-            {{message}}
+            {{message.content}}
           </div>
         </div>
       </li>
-    </div>
+    </ul>
     <div class="p-5">
     </div>
     <div class="bg-secondary fixed-bottom pt-3 ">
       <footer class="text-center">
         <form @submit="onSubmit" class="input-group">
-          <input v-model="$data.text" type="text" class="form-control ml-2">
-          <div class="inputgroup-append">
+          <input v-model="$data.name" type="hidden" class="form-control" placeholder="Username">
+          <input v-model="$data.text" type="text" class="form-control">
+          <div class="input-group-append">
             <button type="submit" class="btn btn-info px-4 mr-2">
               <font-awesome-icon icon="paper-plane" />
             </button>
@@ -68,11 +67,18 @@ export default {
   },
   data() {
     return {
-      message: '',
-      messagelist: [], // 送受信したmessageを格納
+      name: '',
       text: '',
-      user: 'oyatsu', // ユーザー情報
-      userlist: [],
+      // user: '', // inputしたユーザー名
+      // content: '', // inputしたメッセージ
+      /*
+      cards: [
+        { userlist: [] }, // 送受信したuserを格納
+        { messagelist: [] }, // 送受信したmessageを格納
+      ],
+      */
+      message: {},
+      messages: [] // 送受信したname,textをuser,contentに格納
     };
   },
   created() {
@@ -82,15 +88,17 @@ export default {
 
     socket.on('send', (message) => {
       console.log(message);
-      this.$data.message = message;
-      this.$data.messagelist.push(message);
+      // this.$data.message = message;
+      this.$data.messages.push(message);
     });
 
+    /*
     socket.on('username', (user) => {
       console.log(user);
       this.$data.user = user;
-      this.$data.userlist.push(user);
+      this.$data.cards.userlist.push(user);
     });
+    */
   },
   updated() {
     this.scrollToEnd();
@@ -101,12 +109,12 @@ export default {
      */
     onSubmit(e) {
       e.preventDefault();
-      if (this.$data.text === '' | this.$data.user === '') {
+      if (this.$data.text === '' | this.$data.name === '') {
         return 1; // ユーザー名またはフォームが空欄のときは送信しない
       } else {
-        socket.emit('send', this.$data.text);
+        this.$data.message = { user: this.$data.name, content: this.$data.text };
+        socket.emit('send', (this.$data.message));
         this.text = ''; // フォームリセット
-        socket.emit('username', this.$data.name);
       }
     },
     /**
