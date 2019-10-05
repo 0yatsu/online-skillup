@@ -11,40 +11,42 @@
         </nav>
       </div>
     </header>
-    <div class="bg-secondary px-2 pb-3">
+    <div class="bg-secondary pl-3 pb-3" style="z-index: 1; position: fixed; width: 100%;">
       <div class="input-group" style="width: 18rem;">
         <div class="input-group-prepend">
-          <span class="input-group-text">
+          <div class="input-group-text">
             <font-awesome-icon icon="user" />
-          </span>
+          </div>
         </div>
         <input v-model="$data.name" type="text" class="form-control" placeholder="Username">
       </div>
     </div>
-    <ul class="username send">
-      <li v-for="message in messages" class="card card-body bg-light p-2">
-        <div class="pl-2">
-          <div class="pb-2">
-            {{message.user}}
-            <font-awesome-icon icon="caret-right" class="mx-2 pt-2" style="font-size: 24px;" />
-            {{message.content}}
+    <div class="py-5 mb-5" style="z-index: 0;">
+      <ul class="username send">
+        <li v-for="message in messages" class="card card-body bg-light p-2 m-3">
+          <div class="pl-2">
+              <div class="pb-2">
+                {{message.user}}
+                <font-awesome-icon icon="caret-right" class="mx-2 pt-2" style="font-size: 24px;" />
+                {{message.content}}
+              </div>
+            </div>
+        </li>
+      </ul>
+      <div class="bg-secondary pt-3 pb-4" style="position: fixed; bottom: 0; width: 100%;">
+        <form @submit="onSubmit" class="input-group">
+          <input v-model="$data.name" type="hidden" class="form-control" placeholder="Username">
+          <div class="ml-2 col align-self-end input-group-append">
+            <input v-model="$data.text" type="text" class="form-control" style="border-radius: 0.25rem 0 0 0.25rem;">
+            <button type="submit" class="btn btn-info px-4 mr-2">
+              <font-awesome-icon icon="paper-plane" />
+            </button>
           </div>
-        </div>
-      </li>
-    </ul>
-    <div class="p-5">
-      <form @submit="onSubmit" class="input-group">
-        <input v-model="$data.name" type="hidden" class="form-control" placeholder="Username">
-        <div class="ml-2 col align-self-end input-group-append">
-          <input v-model="$data.text" type="text" class="form-control" style="border-radius: 0.25rem 0 0 0.25rem;">
-          <button type="submit" class="btn btn-info px-4 mr-2">
-            <font-awesome-icon icon="paper-plane" />
-          </button>
-        </div>
-      </form>
-    </div>
-    <div class="m-2">
-      <a class="text-black" href="#">pagetop</a>
+        </form>
+      </div>
+      <div class="m-2">
+        <a class="text-black" href="#">pagetop</a>
+      </div>
     </div>
     <footer class="text-center bg-secondary fixed-bottom pt-3">
       <div class="container-fluid">
