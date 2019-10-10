@@ -1,5 +1,18 @@
 <template>
   <div>
+    <div>
+      <b-button v-b-modal.enter>Launch demo modal</b-button>
+      <b-modal id="enter" v-bind:no-close-on-esc="true" :no-close-on-backdrop="true" :hide-header-close="true">
+        <form @submit="onSubmitName" class="input-group">
+          <input v-model="$data.name" class="form-control input-group-append" style="border-radius: 0.25rem 0 0 0.25rem;" placeholder="Username">
+          <button type="submit" class="btn btn-info px-4 mr-2" style="border-radius: 0 0.25rem 0.25rem 0;">
+            <font-awesome-icon icon="paper-plane" />
+          </button>
+        </form>
+        <div slot="modal-footer">
+        </div>
+      </b-modal>
+    </div>
     <header class="sticky-top">
       <div class="bg-secondary">
         <nav class="navbar navbar-default">
@@ -11,17 +24,19 @@
         </nav>
       </div>
     </header>
-    <div class="bg-secondary pl-3 pb-3" style="z-index: 1; position: fixed; width: 100%;">
+    <div class="bg-secondary pl-3 pb-3" style="z-index: 1;">
       <div class="input-group" style="width: 18rem;">
         <div class="input-group-prepend">
           <div class="input-group-text">
             <font-awesome-icon icon="user" />
           </div>
         </div>
-        <input v-model="$data.name" type="text" class="form-control" placeholder="Username">
+        <div type="text" class="form-control text-center" placeholder="Username">
+          {{$data.name}}
+        </div>
       </div>
     </div>
-    <div class="py-5 mb-5" style="z-index: 0;">
+    <div class="pb-5 mb-5" style="z-index: 0;">
       <ul class="username send">
         <li v-for="message in messages" class="card card-body bg-light p-2 m-3">
           <div class="pl-2">
@@ -35,7 +50,6 @@
       </ul>
       <div class="bg-secondary pt-3 pb-4" style="position: fixed; bottom: 0; width: 100%;">
         <form @submit="onSubmit" class="input-group">
-          <input v-model="$data.name" type="hidden" class="form-control" placeholder="Username">
           <div class="ml-2 col align-self-end input-group-append">
             <input v-model="$data.text" type="text" class="form-control" style="border-radius: 0.25rem 0 0 0.25rem;">
             <button type="submit" class="btn btn-info px-4 mr-2">
@@ -63,14 +77,14 @@ import MyComponent from './components/MyComponent.vue';
 
 export default {
   components: {
-    MyComponent
+    MyComponent,
   },
   data() {
     return {
       name: '',
       text: '',
       message: {}, // 送信するname,textをuser,content格納する用
-      messages: [] // 送受信したmessageを格納する用
+      messages: [], // 送受信したmessageを格納する用
     };
   },
   created() {
@@ -90,7 +104,18 @@ export default {
     /**
      * Enterボタンを押したとき
      */
-    onSubmit(e) {
+    onSubmitName(e) {
+      e.preventDefault();
+      if (this.$data.name === '') {
+        return 1;
+      } else {
+        this.$data.message = { user: 'System', content: this.$data.name + ' さんが参加しました！' };
+        socket.emit('send', (this.$data.message));
+        this.$bvModal.hide('enter');
+      }
+    },
+
+    onSubmit(e) { // message送信
       e.preventDefault();
       if (this.$data.text === '' | this.$data.name === '') {
         return 1; // ユーザー名またはフォームが空欄のときは送信しない

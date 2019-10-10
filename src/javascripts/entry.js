@@ -17,5 +17,5 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 new Vue({
   el: '#app',
   components: { App },
-  template: '<app />'
+  template: '<app />',
 });
