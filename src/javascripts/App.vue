@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>
-      <b-button v-b-modal.enter>Launch demo modal</b-button>
-      <b-modal id="enter" v-bind:no-close-on-esc="true" :no-close-on-backdrop="true" :hide-header-close="true">
+      <div v-b-modal.modal-center></div>
+      <b-modal id="enter" class="modal-center" centered title="Enter your name!" v-bind:no-close-on-esc="true" :no-close-on-backdrop="true" :hide-header-close="true">
         <form @submit="onSubmitName" class="input-group">
           <input v-model="$data.name" class="form-control input-group-append" style="border-radius: 0.25rem 0 0 0.25rem;" placeholder="Username">
           <button type="submit" class="btn btn-info px-4 mr-2" style="border-radius: 0 0.25rem 0.25rem 0;">
@@ -25,7 +25,7 @@
       </div>
     </header>
     <div class="bg-secondary pl-3 pb-3" style="z-index: 1;">
-      <div class="input-group" style="width: 18rem;">
+      <div class="input-group" style="width: 15rem;">
         <div class="input-group-prepend">
           <div class="input-group-text">
             <font-awesome-icon icon="user" />
@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class="pb-5 mb-5" style="z-index: 0;">
-      <ul class="username send">
+      <ul class="send">
         <li v-for="message in messages" class="card card-body bg-light p-2 m-3">
           <div class="pl-2">
               <div class="pb-2">
@@ -90,6 +90,7 @@ export default {
   created() {
     socket.on('connect', () => {
       console.log('connected!');
+      this.$bvModal.show('enter');
     });
 
     socket.on('send', (message) => {
