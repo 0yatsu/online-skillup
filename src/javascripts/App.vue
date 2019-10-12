@@ -18,7 +18,7 @@
         <nav class="navbar navbar-default">
           <div class="container-fluid">
             <div class="navbar-header">
-              <a class="navbar-brand text-white" href="#">Bootstrap</a>
+              <a class="navbar-brand text-white" href="#">atChat</a>
             </div>
           </div>
         </nav>
