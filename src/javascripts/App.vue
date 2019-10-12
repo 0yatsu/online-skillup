@@ -2,9 +2,9 @@
   <div>
     <div>
       <div v-b-modal.modal-center></div>
-      <b-modal id="enter" class="modal-center" centered title="Enter your name!" v-bind:no-close-on-esc="true" :no-close-on-backdrop="true" :hide-header-close="true">
+      <b-modal id="enter" class="modal-center" centered title="Welcome!" v-bind:no-close-on-esc="true" :no-close-on-backdrop="true" :hide-header-close="true">
         <form @submit="onSubmitName" class="input-group">
-          <input v-model="$data.name" class="form-control input-group-append" style="border-radius: 0.25rem 0 0 0.25rem;" placeholder="Username">
+          <input v-model="$data.name" class="form-control input-group-append" style="border-radius: 0.25rem 0 0 0.25rem;" placeholder="Enter your name">
           <button type="submit" class="btn btn-info px-4 mr-2" style="border-radius: 0 0.25rem 0.25rem 0;">
             <font-awesome-icon icon="paper-plane" />
           </button>
@@ -23,30 +23,44 @@
           </div>
         </nav>
       </div>
-    </header>
-    <div class="bg-secondary pl-3 pb-3" style="z-index: 1;">
-      <div class="input-group" style="width: 15rem;">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <font-awesome-icon icon="user" />
+      <div class="bg-secondary pl-3 pb-3" style="z-index: 1;">
+        <div class="input-group" style="width: 15rem;">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <font-awesome-icon icon="user" />
+            </div>
+          </div>
+          <div type="text" class="form-control text-center" placeholder="Username">
+            {{$data.name}}
           </div>
         </div>
-        <div type="text" class="form-control text-center" placeholder="Username">
-          {{$data.name}}
-        </div>
       </div>
-    </div>
+    </header>
     <div class="pb-5 mb-5" style="z-index: 0;">
       <ul class="send">
-        <li v-for="message in messages" class="card card-body bg-light p-2 m-3">
-          <div class="pl-2">
-              <div class="pb-2">
-                {{message.user}}
-                <font-awesome-icon icon="caret-right" class="mx-2 pt-2" style="font-size: 24px;" />
-                {{message.content}}
-              </div>
+        <div v-for="message in messages" style="width: 90%;">
+          <div v-if="message.user===$data.name" class="card card-body bg-light p-2 m-3 pl-2">
+            <div class="pb-2 pl-2">
+              {{message.user}}
+              <font-awesome-icon icon="caret-right" class="mx-2 pt-2" style="font-size: 24px;" />
+              {{message.content}}
             </div>
-        </li>
+          </div>
+          <div v-else-if="message.user==='systemmessage'" class="card card-body bg-light p-2 m-3 pl-2">
+            <div class="pb-2 pl-2">
+              {{"System"}}
+              <font-awesome-icon icon="caret-right" class="mx-2 pt-2" style="font-size: 24px;" />
+              {{message.content}}
+            </div>
+          </div>
+          <div v-else class="card card-body bg-light p-2 m-3 pl-2">
+            <div class="pb-2 pl-2">
+              {{message.user}}
+              <font-awesome-icon icon="caret-right" class="mx-2 pt-2" style="font-size: 24px;" />
+              {{message.content}}
+            </div>
+          </div>
+        </div>
       </ul>
       <div class="bg-secondary pt-3 pb-4" style="position: fixed; bottom: 0; width: 100%;">
         <form @submit="onSubmit" class="input-group">
@@ -83,7 +97,8 @@ export default {
     return {
       name: '',
       text: '',
-      message: {}, // 送信するname,textをuser,content格納する用
+      mymessage: {}, // 送信したname,textをuser,contentに格納する用
+      message: {}, // 受信したname,textをuser,contentに格納する用
       messages: [], // 送受信したmessageを格納する用
     };
   },
@@ -110,7 +125,7 @@ export default {
       if (this.$data.name === '') {
         return 1;
       } else {
-        this.$data.message = { user: 'System', content: this.$data.name + ' さんが参加しました！' };
+        this.$data.message = { user: 'systemmessage', content: this.$data.name + ' さんが参加しました！' };
         socket.emit('send', (this.$data.message));
         this.$bvModal.hide('enter');
       }
