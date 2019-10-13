@@ -23,7 +23,7 @@
           </div>
         </nav>
       </div>
-      <div class="bg-info pl-3 pb-3" style="z-index: 1;">
+      <div class="bg-info pl-4 pb-3" style="z-index: 1;">
         <div class="input-group" style="width: 15rem;">
           <div class="input-group-prepend">
             <div class="input-group-text">
@@ -37,8 +37,8 @@
       </div>
     </header>
     <div class="pb-5 mb-5" style="z-index: 0;">
-      <ul class="send">
-        <div v-for="message in messages" style="width: 90%;">
+      <ul class="send pl-0">
+        <div v-for="message in messages" class="mx-auto" style="width: 90%;">
           <div v-if="message.user===$data.name" class="card card-body alert alert-info p-2 m-3 pl-2">
             <div class="pb-2 pl-2">
               {{message.user}}
@@ -64,16 +64,13 @@
       </ul>
       <div class="bg-info pt-3 pb-4" style="position: fixed; bottom: 0; width: 100%;">
         <form @submit="onSubmit" class="input-group">
-          <div class="ml-2 col align-self-end input-group-append">
+          <div class="pl-4 col align-self-end input-group-append">
             <input v-model="$data.text" type="text" class="form-control" style="border-radius: 0.25rem 0 0 0.25rem;">
             <button type="submit" class="btn btn-secondary px-4 mr-2">
               <font-awesome-icon icon="paper-plane" />
             </button>
           </div>
         </form>
-      </div>
-      <div class="m-2">
-        <a class="text-black" href="#">pagetop</a>
       </div>
     </div>
     <footer class="text-center bg-info fixed-bottom pt-3">
@@ -152,11 +149,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.logo {
-  width: 40px;
-}
-
-.sample {
-  color: $red;
-}
+//
 </style>
