@@ -52,7 +52,7 @@
     "ip": "^1.1.5",
     "js-cookie": "^2.2.0",
     "mini-css-extract-plugin": "^0.5.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "nodemon": "^1.18.9",
     "postcss": "^8.2.10",
     "postcss-loader": "^3.0.0",
